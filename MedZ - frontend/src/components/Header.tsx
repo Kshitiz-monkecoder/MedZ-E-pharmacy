@@ -2,7 +2,7 @@ import { FaSearch, FaShoppingBag, FaSignInAlt, FaSignOutAlt } from "react-icons/
 import { FaUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-const user = {_id : "admin",role: "admin"};
+const user = {_id : "",role: ""};
 
 
 const Header = () => {
