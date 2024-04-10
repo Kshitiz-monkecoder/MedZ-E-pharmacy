@@ -17,7 +17,6 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
     sixMonthAgo.setMonth(sixMonthAgo.getMonth() - 6);
 
-
     const thisMonth = {
       start: new Date(today.getFullYear(), today.getMonth() - 1, 1),
       end: today,
@@ -77,6 +76,10 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       },
     });
 
+    const latestTransactionsPromise = Order.find({})
+      .select(["orderItems", "discount", "total", "status"])
+      .limit(4);
+
     const [
       thisMonthOrders,
       thisMonthProducts,
@@ -86,7 +89,11 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       lastMonthUsers,
       ProductsCount,
       UsersCount,
-      allOrders,lastSixMonthOrders,
+      allOrders,
+      lastSixMonthOrders,
+      categories,
+      femaleUserCount,
+      latestTransactions,
     ] = await Promise.all([
       thisMonthOrdersPromise,
       thisMonthProductsPromise,
@@ -98,6 +105,9 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       Product.countDocuments(),
       Order.find({}).select("total"),
       lastSixMonthOrdersPromise,
+      Product.distinct("category"),
+      User.countDocuments({ gender: "female" }),
+      latestTransactionsPromise,
     ]);
 
     const thisMonthRevenue = thisMonthOrders.reduce(
@@ -141,10 +151,60 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       order: allOrders.length,
     };
 
+    const orderMonthCounts = new Array(6).fill(0);
+    const orderMonthlyRevenue = new Array(6).fill(0);
+
+    lastSixMonthOrders.forEach((order) => {
+      const creationDate = order.createdAt;
+      const monthDiff = today.getMonth() - creationDate.getMonth();
+
+      if (monthDiff < 6) {
+        orderMonthCounts[6 - monthDiff - 1] += 1;
+        orderMonthlyRevenue[6 - monthDiff - 1] += order.total;
+      }
+    });
+
+    const categoriesCountPromise = categories.map((category) =>
+      Product.countDocuments({ category })
+    );
+
+    const categoriesCount = await Promise.all(categoriesCountPromise);
+
+    const categoryCount: Record<string, number>[] = [];
+
+    categories.forEach((category, i) => {
+      categoryCount.push({
+        [category]: Math.round((categoriesCount[i] / ProductsCount) * 100),
+      });
+    });
+
+    const Userratio = {
+      male: UsersCount - femaleUserCount,
+      female: femaleUserCount,
+    };
+
+    const modifiedLatestTransaction = latestTransactions.map((i) => ({
+      id: i._id,
+      discount: i.discount,
+      amount: i.total,
+      quantity: i.orderItems.length,
+      status: i.status,
+    }));
+
     stats = {
+      categories,
+      categoryCount,
       changePercent,
       count,
+      chart: {
+        order: orderMonthCounts,
+        revenue: orderMonthlyRevenue,
+      },
+      Userratio,
+      latestTransactions: modifiedLatestTransaction,
     };
+
+    myCache.set("admin-stats", JSON.stringify(stats));
   }
 
   return res.status(200).json({
@@ -153,7 +213,23 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
   });
 });
 
-export const getPieChart = TryCatch(async () => {});
+export const getPieChart = TryCatch(async (req, res, next) => {
+  let charts;
+
+  if (myCache.has("admin-pie-charts"))
+    charts = JSON.parse(myCache.get("admin-pie-charts") as string);
+  else {
+    const [processingOrder,shippedOrder,delieveredOrder] = await Promise.all([
+      Order.countDocuments({ status: "Processing" }),
+      Order.countDocuments({ status: "Shipped" }),
+      Order.countDocuments({ status: "Delievered" }),
+    ]);
+    return res.status(200).json({
+      success: true,
+      charts,
+    });
+  }
+});
 
 export const getBarCharts = TryCatch(async () => {});
 
