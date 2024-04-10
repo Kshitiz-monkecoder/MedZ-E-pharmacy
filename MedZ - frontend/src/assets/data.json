@@ -1,0 +1,85 @@
+{
+    "categories": [
+      {
+        "value": 40,
+        "heading": "Laptops"
+      },
+  
+      {
+        "value": 100,
+        "heading": "Shoes"
+      },
+      {
+        "value": 80,
+        "heading": "Cameras"
+      },
+      {
+        "value": 60,
+        "heading": "Jeans"
+      }
+    ],
+  
+    "transaction": [
+      {
+        "_id": "ksdnfkjsdfx",
+        "amount": 4000,
+        "quantity": 4,
+        "discount": 300,
+        "status": "Processing"
+      },
+      {
+        "_id": "sdsdssdsd",
+        "amount": 5100,
+        "quantity": 2,
+        "discount": 900,
+        "status": "Processing"
+      },
+      {
+        "_id": "sdsdcvsssdsd",
+        "amount": 13000,
+        "quantity": 91,
+        "discount": 0,
+        "status": "Shipped"
+      },
+      {
+        "_id": "dfddddfd",
+        "amount": 2300,
+        "quantity": 4,
+        "discount": 2000,
+        "status": "Processing"
+      }
+    ],
+    "products": [
+      {
+        "price": "40",
+        "name": "OXYNASOCAN NASAL SPRAY 10 ML",
+        "photo": "https://www.medkart.in/_next/image?url=https%3A%2F%2Fd1s24u4ln0wd0i.cloudfront.net%2F10087_3&w=1080&q=75"
+      },
+      {
+        "price": 229,
+        "name": "VITANOURISH - HAIR BOOST",
+        "photo": "https://d1s24u4ln0wd0i.cloudfront.net/1701512812656b066c8bc1b.png"
+      },
+      {
+        "price": 315.35,
+        "name": "FOLLIHAIR TABLET 15'S",
+        "photo": "https://d1s24u4ln0wd0i.cloudfront.net/5104_1"
+      },
+      {
+        "price": 170,
+        "name": "ORTHOTUS SPRAY 75GM",
+        "photo": "https://www.medkart.in/_next/image?url=https%3A%2F%2Fd1s24u4ln0wd0i.cloudfront.net%2F170955774465e5c7f0c2ac7.png&w=1080&q=75"
+      },
+      {
+        "price": 50,
+        "name": "Vico Plus 25ml",
+        "photo": "https://www.medkart.in/_next/image?url=https%3A%2F%2Fd1s24u4ln0wd0i.cloudfront.net%2F14461_2&w=1080&q=75"
+      },
+      {
+        "price": 23.9,
+        "name": "DIGENE (ORANGE) TABLET 15'S",
+        "photo": "https://www.medkart.in/_next/image?url=https%3A%2F%2Fd1s24u4ln0wd0i.cloudfront.net%2F3467_2&w=1080&q=75"
+      }
+      
+    ]
+  }
