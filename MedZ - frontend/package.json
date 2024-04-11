@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
+    "@stripe/react-stripe-js": "^2.7.0",
+    "@stripe/stripe-js": "^3.3.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "chartjs": "^0.3.24",
     "firebase": "^10.10.0",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -24,7 +27,8 @@
     "react-router-dom": "^6.22.3",
     "react-table": "^7.8.0",
     "sass": "^1.74.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "stripe": "^14.25.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
