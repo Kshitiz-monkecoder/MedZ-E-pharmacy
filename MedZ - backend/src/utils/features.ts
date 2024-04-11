@@ -4,7 +4,7 @@ import { myCache } from "../app.js";
 import { Product } from "../models/product.js";
 import { Order } from "../models/order.js";
 
-export const connectDB = (uri: string) => {
+export const connectDB = (uri : string) => {
   mongoose
     .connect(uri, {
       dbName: "MedZ_Pharmacy",
